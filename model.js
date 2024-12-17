@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 function setup() {
 	const modelFile = 'models/Avocado Model.glb';
-	const modelScaleFactor = 10;
+	const modelScaleFactor = 20;
 	const scene = new THREE.Scene();
 
 	const fov = 75;
@@ -24,11 +24,17 @@ function setup() {
 	const loader = new GLTFLoader();
 
 	loader.load(modelFile, function(gltf) {
-		gltf.scene.scale.x = modelScaleFactor;
-		gltf.scene.scale.y = modelScaleFactor;
-		gltf.scene.scale.z = modelScaleFactor;
-		scene.add(gltf.scene);
-		renderer.render(scene, camera);
+		let sm = gltf.scene;
+		sm.scale.x = modelScaleFactor;
+		sm.scale.y = modelScaleFactor;
+		sm.scale.z = modelScaleFactor;
+		scene.add(sm);
+		function animate() {
+			sm.rotation.x += 0.01;
+			sm.rotation.y += 0.01;
+			renderer.render(scene, camera);
+		}
+		renderer.setAnimationLoop(animate);
 
 	}, undefined, function(error) {
 
